@@ -1,0 +1,29 @@
+<table class="search-results">
+    <thead>
+        <tr>
+            <th>عنوان پیوست</th>
+            <th>نوع مدرک</th>
+            <th>پرسنل مربوط</th>
+            <th>توضیحات</th>
+            <th>پرونده پیوست</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for document in documents %}
+        <tr>
+            <td>{{ document.title|default:"—" }}</td>
+            <td>{{ document.get_document_type_display|default:document.document_type|default:"—" }}</td>
+            <td>
+                {{ document.employee.first_name }}
+                {{ document.employee.last_name }}
+            </td>
+            <td>{{ document.description|truncatechars:100 }}</td>
+            <td>
+                <a href="{% url 'admin:personnel_employeedocument_change' document.pk %}">
+                    مشاهده پیوست
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

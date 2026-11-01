@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت کاربران CompanyHR</title>
+</head>
+<body>
+    <main>
+        <h1>مدیریت کاربران</h1>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <section>
+            <h2>تعریف کاربر جدید</h2>
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button type="submit">ایجاد کاربر</button>
+            </form>
+        </section>
+
+        <hr>
+
+        <section>
+            <h2>کاربران موجود</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>نام کاربری</th>
+                        <th>نام</th>
+                        <th>نام خانوادگی</th>
+                        <th>ایمیل</th>
+                        <th>وضعیت</th>
+                        <th>مدیر کل سیستم</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.first_name|default:"—" }}</td>
+                            <td>{{ user.last_name|default:"—" }}</td>
+                            <td>{{ user.email|default:"—" }}</td>
+                            <td>
+                                {% if user.is_active %}
+                                    فعال
+                                {% else %}
+                                    غیرفعال
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user.is_superuser %}
+                                    بله
+                                {% else %}
+                                    خیر
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6">کاربری ثبت نشده است.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

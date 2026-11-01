@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت گروه‌ها - CompanyHR</title>
+</head>
+<body>
+    <main>
+        <h1>مدیریت گروه‌ها</h1>
+
+        <p>
+            <a href="{% url 'personnel_access_users' %}">
+                بازگشت به مدیریت کاربران
+            </a>
+        </p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <section>
+            <h2>تعریف گروه جدید</h2>
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">ایجاد گروه</button>
+            </form>
+        </section>
+
+        <hr>
+
+        <section>
+            <h2>گروه‌های موجود</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>نام گروه</th>
+                        <th>تعداد اعضا</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for group in groups %}
+                        <tr>
+                            <td>{{ group.name }}</td>
+                            <td>{{ group.user_set.count }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="2">هنوز گروهی تعریف نشده است.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

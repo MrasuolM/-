@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت مجوزها - CompanyHR</title>
+</head>
+<body>
+    <main>
+        <h1>مدیریت مجوزها</h1>
+
+        <nav>
+            <a href="{% url 'personnel_access_users' %}">
+                مدیریت کاربران
+            </a>
+            |
+            <a href="{% url 'personnel_access_groups' %}">
+                مدیریت گروه‌ها
+            </a>
+        </nav>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <hr>
+
+        <section>
+            <h2>انتخاب گروه یا کاربر</h2>
+
+            <!-- مرحله اول: انتخاب نوع مقصد -->
+            <form method="get">
+                <label for="target_type">نوع مقصد:</label>
+
+                <select
+                    id="target_type"
+                    name="target_type"
+                    required
+                    onchange="this.form.submit()"
+                >
+                    <option value="">انتخاب کنید</option>
+
+                    <option
+                        value="group"
+                        {% if target_type == "group" %}selected{% endif %}
+                    >
+                        گروه
+                    </option>
+
+                    <option
+                        value="user"
+                        {% if target_type == "user" %}selected{% endif %}
+                    >
+                        کاربر
+                    </option>
+                </select>
+            </form>
+
+            <!-- مرحله دوم: انتخاب گروه یا کاربر -->
+            {% if target_type == "group" or target_type == "user" %}
+                <form method="get">
+                    <input
+                        type="hidden"
+                        name="target_type"
+                        value="{{ target_type }}"
+                    >
+
+                    <label for="target_id">
+                        {% if target_type == "group" %}
+                            گروه:
+                        {% else %}
+                            کاربر:
+                        {% endif %}
+                    </label>
+
+                    <select
+                        id="target_id"
+                        name="target_id"
+                        required
+                    >
+                        <option value="">انتخاب کنید</option>
+
+                        {% if target_type == "group" %}
+                            {% for group in groups %}
+                                <option
+                                    value="{{ group.pk }}"
+                                    {% if target_id == group.pk|stringformat:"s" %}selected{% endif %}
+                                >
+                                    {{ group.name }}
+                                </option>
+                            {% endfor %}
+
+                        {% elif target_type == "user" %}
+                            {% for user in users %}
+                                <option
+                                    value="{{ user.pk }}"
+                                    {% if target_id == user.pk|stringformat:"s" %}selected{% endif %}
+                                >
+                                    {{ user.username }}
+                                </option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+
+                    <button type="submit">
+                        نمایش مجوزها
+                    </button>
+                </form>
+            {% endif %}
+        </section>
+
+        {% if target %}
+            <hr>
+
+            <section>
+                <h2>
+                    مجوزهای
+                    {% if target_type == "group" %}
+                        گروه
+                    {% else %}
+                        کاربر
+                    {% endif %}
+                    «{{ target }}»
+                </h2>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <input
+                        type="hidden"
+                        name="target_type"
+                        value="{{ target_type }}"
+                    >
+
+                    <input
+                        type="hidden"
+                        name="target_id"
+                        value="{{ target.pk }}"
+                    >
+
+                    <p>
+                        <button type="button" id="select-all">
+                            انتخاب همه
+                        </button>
+
+                        <button type="button" id="clear-all">
+                            لغو انتخاب همه
+                        </button>
+                    </p>
+
+                    <p>
+                        تعداد مجوزهای انتخاب‌شده:
+                        <strong id="selected-count">0</strong>
+                    </p>
+
+                    {% regroup permissions by display_app_label as app_groups %}
+
+                    {% for app_group in app_groups %}
+                        <fieldset>
+                            <legend>
+                                اپلیکیشن: {{ app_group.grouper }}
+                            </legend>
+
+                            {%  regroup app_group.list by display_model_name as model_groups  %}
+
+                            {% for model_group in model_groups %}
+                                <h3>{{ model_group.grouper }}</h3>
+
+                                {% for permission in model_group.list %}
+                                    <div>
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                name="permissions"
+                                                value="{{ permission.pk }}"
+                                                {% if permission.pk in selected_permission_ids %}checked{% endif %}
+                                            >
+
+                                            {{  permission.display_name }}
+
+                                            
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        </fieldset>
+                    {% endfor %}
+
+                    <p>
+                        <button type="submit">
+                            ذخیره مجوزها
+                        </button>
+                    </p>
+                </form>
+            </section>
+        {% endif %}
+    </main>
+
+    <script>
+        (function () {
+            const checkboxes = Array.from(
+                document.querySelectorAll(
+                    'input[name="permissions"]'
+                )
+            );
+
+            const count = document.getElementById(
+                "selected-count"
+            );
+
+            function updateCount() {
+                if (!count) {
+                    return;
+                }
+
+                count.textContent = checkboxes.filter(
+                    checkbox => checkbox.checked
+                ).length;
+            }
+
+            document.getElementById("select-all")
+                ?.addEventListener("click", function () {
+                    checkboxes.forEach(function (checkbox) {
+                        checkbox.checked = true;
+                    });
+
+                    updateCount();
+                });
+
+            document.getElementById("clear-all")
+                ?.addEventListener("click", function () {
+                    checkboxes.forEach(function (checkbox) {
+                        checkbox.checked = false;
+                    });
+
+                    updateCount();
+                });
+
+            checkboxes.forEach(function (checkbox) {
+                checkbox.addEventListener(
+                    "change",
+                    updateCount
+                );
+            });
+
+            updateCount();
+        })();
+    </script>
+</body>
+</html>

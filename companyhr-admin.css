@@ -1,0 +1,322 @@
+/* ==========================================
+   CompanyHR - Global Admin Design
+   Modern Corporate Navy / Blue / Turquoise
+   ========================================== */
+
+@font-face {
+    font-family: "B Lotus";
+    src: url("fonts/BLOTUS.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Iran Nastaliq";
+    src: url("fonts/IranNastaliq-Web.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --companyhr-navy: #142b49;
+    --companyhr-navy-light: #1c3d60;
+    --companyhr-blue: #2877a8;
+    --companyhr-turquoise: #20c4bb;
+    --companyhr-page: #f3f6fa;
+    --companyhr-text: #26374a;
+}
+
+/* زمینه کلی مدیریت */
+body,
+#container {
+    background-color: var(--companyhr-page);
+    color: var(--companyhr-text);
+    font-family: "B Lotus", Tahoma, sans-serif;
+}
+
+
+/* نوار بالای مدیریت - سبک مدرن و لوکس */
+#header {
+    position: relative;
+    background: linear-gradient(
+        110deg,
+        #10243e 0%,
+        #173655 42%,
+        #205779 75%,
+        #173b60 100%
+    );
+    color: #ffffff;
+    border-bottom: 3px solid #20c4bb;
+    box-shadow:
+        0 5px 18px rgba(12, 31, 53, 0.22),
+        0 2px 5px rgba(20, 43, 73, 0.12);
+}
+
+
+#branding #site-name a {
+    color: #fff;
+    font-family: "Iran Nastaliq", "B Lotus", serif;
+    font-size: 25px;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+#branding #site-name a:hover {
+    color: #b9fff7;
+}
+
+#user-tools,
+#user-tools a {
+    color: #eaf5ff;
+}
+
+/* منوی کناری */
+#nav-sidebar {
+    background: rgba(255, 255, 255, 0.82);
+    border-inline-end: 1px solid rgba(20, 43, 73, 0.12);
+    box-shadow: 3px 0 14px rgba(20, 43, 73, 0.08);
+}
+
+#nav-sidebar .module {
+    background: transparent;
+    border: 0;
+}
+
+
+/* عنوان گروه‌های منوی کناری */
+#nav-sidebar .module caption {
+    background: #142b49;
+    color: #ffffff;
+    font-family: "B Lotus", Tahoma, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 16px 14px 8px;
+}
+
+
+#nav-sidebar .module th,
+#nav-sidebar .module td {
+    background: transparent;
+    border: 0;
+}
+
+#nav-sidebar a {
+    display: block;
+    color: #ffffff;;
+    border-radius: 8px;
+    margin: 3px 8px;
+    padding: 9px 12px;
+    font-family: "B Lotus", Tahoma, sans-serif;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        padding 0.2s ease;
+}
+
+#nav-sidebar a:hover {
+    background: rgba(32, 196, 187, 0.15);
+    color: #ffffff;
+    padding-inline-start: 16px;
+}
+
+#nav-sidebar .current-app > th,
+#nav-sidebar .current-app > td,
+#nav-sidebar .current-model {
+    background: rgba(32, 196, 187, 0.13);
+}
+
+#nav-sidebar .current-model {
+    border-inline-start: 3px solid var(--companyhr-turquoise);
+}
+
+#nav-sidebar .current-model a {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* مسیر راهنما بالای صفحه */
+div.breadcrumbs {
+    background: #ffffff;
+    color: #60738a;
+    border-bottom: 1px solid #e0e8f0;
+    padding: 12px 20px;
+}
+
+div.breadcrumbs a {
+    color: var(--companyhr-blue);
+}
+
+div.breadcrumbs a:hover {
+    color: var(--companyhr-navy);
+}
+
+/* عنوان صفحات */
+#content h1 {
+    color: var(--companyhr-navy);
+    font-family: "B Lotus", Tahoma, sans-serif;
+    font-weight: bold;
+}
+
+/* دکمه‌ها؛ مطابق انتخاب فونت پروژه */
+button,
+input[type="submit"],
+input[type="button"],
+.button,
+.submit-row input,
+a.button {
+    font-family: "Iran Nastaliq", "B Lotus", serif !important;
+}
+
+/* فرم‌ها و جدول‌ها */
+input,
+select,
+textarea,
+table,
+th,
+td,
+label,
+.help,
+.helptext {
+    font-family: "B Lotus", Tahoma, sans-serif;
+}
+
+/* کادرهای بخش‌های مدیریت */
+.module,
+.inline-group,
+#changelist-filter,
+.submit-row {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.module,
+.inline-group {
+    border-color: #e0e8f0;
+    box-shadow: 0 3px 12px rgba(25, 55, 87, 0.045);
+}
+
+/* پیوندهای معمولی */
+a {
+    transition: color 0.2s ease;
+}
+
+/* نمایش بهتر در صفحه‌های کوچک */
+@media (max-width: 767px) {
+    #branding #site-name a {
+        font-size: 21px;
+    }
+
+    #nav-sidebar a {
+        margin-inline: 4px;
+    }
+}
+
+/* خوانایی نام مدل‌ها در صفحه اصلی مدیریت */
+.dashboard #content-main .module table th a:link,
+.dashboard #content-main .module table th a:visited {
+    color: #173b60 !important;
+    opacity: 1 !important;
+    font-weight: bold !important;
+}
+
+.dashboard #content-main .module table th a:hover,
+.dashboard #content-main .module table th a:focus {
+    color: #087f8c !important;
+}
+
+/* رنگ نوشته‌های منوی کناری بر اساس وضعیت انتخاب */
+
+#nav-sidebar .module table th a:link,
+#nav-sidebar .module table th a:visited,
+#nav-sidebar .module table td a:link,
+#nav-sidebar .module table td a:visited {
+    color: #173b60 !important;
+    opacity: 1 !important;
+    font-weight: bold;
+}
+
+/* گزینه فعال در منوی کناری */
+#nav-sidebar .current-app > th a,
+#nav-sidebar .current-app > td a,
+#nav-sidebar tr.current-model th a,
+#nav-sidebar tr.current-model td a,
+#nav-sidebar .current-model a {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    opacity: 1 !important;
+    font-weight: bold !important;
+}
+
+/* حالت قرار گرفتن نشانگر روی گزینه */
+#nav-sidebar .module table th a:hover,
+#nav-sidebar .module table td a:hover {
+    color: #8fe8e0 !important;
+}
+
+
+/* پس‌زمینه ثابت صفحات داخلی Django Admin */
+body:not(.login) {
+    background-image: url("images/companyhr-background.png");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* اجازه نمایش تصویر پس‌زمینه در صفحات داخلی */
+body:not(.login) #container {
+    background-color: transparent;
+}
+
+
+/* زمینه مات بخش محتوا و منوی کناری */
+body:not(.login) #content,
+body:not(.login) #nav-sidebar {
+    background: rgba(255, 255, 255, 0.82);
+    border-radius: 14px;
+    box-sizing: border-box;
+}
+
+/* فاصله داخلی محتوای اصلی */
+body:not(.login) #content {
+    padding: 20px;
+}
+
+/* عنوان‌های منوی کناری */
+body:not(.login) #nav-sidebar .module caption {
+    color: #173b60;
+}
+
+/* نوشته‌های منوی کناری */
+body:not(.login) #nav-sidebar .module table th a:link,
+body:not(.login) #nav-sidebar .module table th a:visited,
+body:not(.login) #nav-sidebar .module table td a:link,
+body:not(.login) #nav-sidebar .module table td a:visited {
+    color: #173b60 !important;
+    -webkit-text-fill-color: #173b60;
+}
+
+/* گزینه انتخاب‌شده */
+body:not(.login) #nav-sidebar .current-app > th a,
+body:not(.login) #nav-sidebar .current-app > td a,
+body:not(.login) #nav-sidebar tr.current-model th a,
+body:not(.login) #nav-sidebar tr.current-model td a,
+body:not(.login) #nav-sidebar .current-model a {
+    color: #173b60 !important;
+    -webkit-text-fill-color: #173b60 !important;
+}
+
+/* حالت قرار گرفتن نشانگر روی گزینه */
+body:not(.login) #nav-sidebar .module table th a:hover,
+body:not(.login) #nav-sidebar .module table td a:hover {
+    color: #087f8c !important;
+    -webkit-text-fill-color: #087f8c !important;
+}
+
+
+/* حذف لینک نمایش وبگاه از نوار بالای مدیریت */
+#user-tools a[href="/"] {
+    display: none !important;
+}

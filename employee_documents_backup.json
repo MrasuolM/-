@@ -1,0 +1,26 @@
+[
+{
+  "model": "personnel.employeedocument",
+  "pk": 3,
+  "fields": {
+    "employee": 2,
+    "document_type": "education",
+    "education_level": "associate",
+    "title": "«·« ‰",
+    "file": "employees/documents/2026/10/111_Uj6uloV.pdf",
+    "issue_date": null,
+    "description": "‰‰⁄„« ",
+    "uploaded_at": "2026-10-04T12:54:13.273Z",
+    "is_deleted": true,
+    "deleted_at": "2026-10-10T14:24:18.623Z"
+  }
+},
+{
+  "model": "personnel.employeedocument",
+  "pk": 4,
+  "fields": {
+    "employee": 2,
+    "document_type": "other",
+    "education_level": "",
+    "title": "»·—–",
+    "file": 

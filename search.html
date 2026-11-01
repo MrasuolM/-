@@ -1,0 +1,1047 @@
+```django
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}جستجوی اطلاعات | CompanyHR{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+
+<link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+
+<style>
+.companyhr-search {
+    direction: rtl;
+    text-align: right;
+    padding: 18px;
+    color: var(--body-fg, #222);
+}
+.companyhr-search * { box-sizing: border-box; }
+
+.search-card {
+    background: var(--body-bg, #fff);
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 18px;
+}
+
+.search-main {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) 180px auto;
+    gap: 12px;
+    align-items: end;
+}
+
+.search-field { min-width: 0; }
+
+.search-field label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.search-field input,
+.search-field select,
+.search-field textarea {
+    width: 100%;
+    max-width: 100%;
+    min-height: 36px;
+    padding: 7px 9px;
+    border: 1px solid var(--border-color, #bbb);
+    border-radius: 6px;
+    background: var(--body-bg, #fff);
+    color: var(--body-fg, #222);
+}
+
+.search-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+}
+
+.search-actions button,
+.search-actions a {
+    display: inline-block;
+    padding: 9px 16px;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.search-actions button {
+    background: var(--primary, #417690);
+    color: white;
+}
+
+.search-actions a {
+    background: var(--button-bg, #eee);
+    color: var(--body-fg, #222);
+}
+
+.advanced-filters { margin-top: 18px; }
+
+.filter-menu {
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 9px;
+    padding: 14px;
+    margin-bottom: 14px;
+}
+
+.filter-menu > summary {
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 4px 0 10px;
+}
+
+.filter-subgroup {
+    border-top: 1px solid var(--hairline-color, #eee);
+    padding: 12px 0 4px;
+    margin-top: 8px;
+}
+
+.filter-subgroup > summary {
+    cursor: pointer;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.filter-item {
+    min-width: 0;
+    padding: 8px;
+    border: 1px solid var(--hairline-color, #eee);
+    border-radius: 7px;
+}
+
+.filter-item label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.filter-item input,
+.filter-item select {
+    width: 100%;
+    min-width: 0;
+    min-height: 34px;
+    padding: 6px;
+    border: 1px solid var(--border-color, #bbb);
+    border-radius: 5px;
+    background: var(--body-bg, #fff);
+    color: var(--body-fg, #222);
+}
+
+.filter-item .range-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.date-filter .date-range-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: normal;
+    cursor: pointer;
+    margin: 8px 0;
+}
+
+.date-filter .date-range-toggle-label input {
+    width: auto;
+    min-height: auto;
+    margin: 0;
+}
+
+.date-filter .range-inputs[hidden],
+.date-filter .exact-date-wrap[hidden] {
+    display: none !important;
+}
+
+
+
+.filter-note {
+    color: var(--body-quiet-color, #777);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.result-summary {
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.search-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    border-bottom: 1px solid var(--border-color, #ddd);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+}
+
+.search-tabs button {
+    cursor: pointer;
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 6px;
+    padding: 9px 13px;
+    background: var(--button-bg, #eee);
+    color: var(--body-fg, #222);
+}
+
+.search-tabs button.active {
+    background: var(--primary, #417690);
+    color: #fff;
+}
+
+.search-tab-panel { display: none; }
+.search-tab-panel.active { display: block; }
+
+.search-result-section { margin-bottom: 22px; }
+
+.search-result-section h3 { margin: 0 0 10px; }
+
+@media (max-width: 900px) {
+    .filter-grid {
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+    }
+
+    .search-main {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .search-main .search-field:first-child {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 600px) {
+    .filter-grid,
+    .search-main {
+        grid-template-columns: 1fr;
+    }
+
+    .search-main .search-field:first-child {
+        grid-column: auto;
+    }
+
+    .companyhr-search { padding: 8px; }
+}
+</style>
+{% endblock %}
+
+
+
+{% block extrahead %}
+{{ block.super }}
+
+<script src="{% static 'admin/js/vendor/jquery/jquery.min.js' %}"></script>
+
+<script src="{% static 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.core.js' %}"></script>
+<script src="{% static 'admin/jquery.ui.datepicker.jalali/scripts/calendar.all.js' %}"></script>
+<script src="{% static 'admin/jquery.ui.datepicker.jalali/scripts/calendar.js' %}"></script>
+<script src="{% static 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc.js' %}"></script>
+<script src="{% static 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc-fa.js' %}"></script>
+
+{% endblock %}
+
+
+{% block content %}
+<div class="companyhr-search">
+
+    <h1>جستجوی اطلاعات</h1>
+
+    <form method="get"
+          action="{% url 'personnel_companyhr_search' %}"
+          id="companyhr-search-form">
+
+        <section class="search-card">
+
+            <div class="search-main">
+
+                <div class="search-field">
+                    <label for="id_q">عبارت جستجو در تمام بخش‌های مجاز</label>
+
+                    <input
+                        type="text"
+                        name="q"
+                        id="id_q"
+                        value="{{ query }}"
+                        placeholder="مثلاً نام، نام خانوادگی، شماره قرارداد، شماره سند..."
+                    >
+                </div>
+
+                <div class="search-field">
+                    <label for="id_mode">نوع جستجو</label>
+
+                    <select name="mode" id="id_mode">
+                        <option value="simple" {% if mode == "simple" %}selected{% endif %}>
+                            جستجوی ساده
+                        </option>
+
+                        <option value="advanced" {% if mode == "advanced" %}selected{% endif %}>
+                            جستجوی پیشرفته
+                        </option>
+                    </select>
+                </div>
+
+                <div class="search-field">
+                    <button type="submit" class="default">جستجو</button>
+                </div>
+
+            </div>
+
+
+            {% if mode == "advanced" %}
+            <div class="advanced-filters">
+
+                {% if can_view_employees %}
+                <details class="filter-menu" open>
+                    <summary>اطلاعات پرسنلی</summary>
+
+                    {% for group in employee_filter_groups %}
+                    <details class="filter-subgroup"
+                             {% if group.key == "employment" %}open{% endif %}>
+
+                        <summary>{{ group.label }}</summary>
+
+                        {% if group.key == "employment" %}
+                        <div class="filter-grid">
+
+                            <div class="filter-item">
+                                <label for="id_department">واحد سازمانی</label>
+
+                                <select name="department" id="id_department">
+                                    <option value="">همه واحدها</option>
+
+                                    {% for department in departments %}
+                                    <option
+                                        value="{{ department.pk }}"
+                                        {% if department_id == department.pk|stringformat:"s" %}selected{% endif %}
+                                    >
+                                        {{ department.name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="filter-item">
+                                <label for="id_employment_status">وضعیت استخدام</label>
+
+                                <select name="employment_status" id="id_employment_status">
+                                    <option value="">همه وضعیت‌ها</option>
+
+                                    {% for value, label in employment_status_choices %}
+                                    <option
+                                        value="{{ value }}"
+                                        {% if employment_status == value %}selected{% endif %}
+                                    >
+                                        {{ label }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                        </div>
+                        {% endif %}
+
+
+                        <div class="filter-grid">
+
+                            {% for field in group.fields %}
+                            <div class="filter-item">
+
+                                <label for="id_f_{{ field.key }}">
+                                    {{ field.label }}
+                                </label>
+
+                               
+{% if field.type == "date" %}
+
+    <div class="date-filter" data-date-filter>
+
+        <label class="date-range-toggle-label">
+            <input
+                type="checkbox"
+                class="date-range-toggle"
+                name="range_f_{{ field.key }}"
+                value="1"
+            >
+            جستجو در بازه زمانی
+        </label>
+
+        <div class="exact-date-wrap">
+            <input
+                type="text"
+                class="jalali-date"
+                name="f_{{ field.key }}"
+                id="id_f_{{ field.key }}"
+                autocomplete="off"
+                placeholder="تاریخ دقیق"
+            >
+        </div>
+
+        <div class="range-inputs" hidden>
+            <input
+                type="text"
+                class="jalali-date"
+                name="f_from_{{ field.key }}"
+                autocomplete="off"
+                placeholder="از تاریخ"
+            >
+
+            <input
+                type="text"
+                class="jalali-date"
+                name="f_to_{{ field.key }}"
+                autocomplete="off"
+                placeholder="تا تاریخ"
+            >
+        </div>
+
+    </div>
+
+                                {% elif field.type == "choice" %}
+
+                                    <select name="f_{{ field.key }}" id="id_f_{{ field.key }}">
+                                        <option value="">همه موارد</option>
+
+                                        {% for value, label in field.choices %}
+                                        <option
+                                            value="{{ value }}"
+                                            {% if request.GET|default_if_none:'' == value %}selected{% endif %}
+                                        >
+                                            {{ label }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+
+                                {% elif field.type == "boolean" %}
+
+                                    <select name="f_{{ field.key }}" id="id_f_{{ field.key }}">
+                                        <option value="">همه</option>
+                                        <option value="yes">بله</option>
+                                        <option value="no">خیر</option>
+                                    </select>
+
+                                {% else %}
+
+                                    <input
+                                        type="text"
+                                        name="f_{{ field.key }}"
+                                        id="id_f_{{ field.key }}"
+                                        value=""
+                                        placeholder="مقدار مورد جستجو"
+                                    >
+
+                                    
+
+                                {% endif %}
+
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                    </details>
+                    {% endfor %}
+
+
+                    {% for group in related_filter_groups %}
+                    <details class="filter-subgroup">
+
+                        <summary>{{ group.label }}</summary>
+
+                        <div class="filter-grid">
+
+                            {% for field in group.fields %}
+                            <div class="filter-item">
+
+                                <label for="id_f_{{ group.key }}_{{ field.key }}">
+                                    {{ field.label }}
+                                </label>
+
+                                
+{% if field.type == "date" %}
+
+    <div class="date-filter" data-date-filter>
+
+        <label class="date-range-toggle-label">
+            <input
+                type="checkbox"
+                class="date-range-toggle"
+                name="range_f_{{ group.key }}_{{ field.key }}"
+                value="1"
+            >
+            جستجو در بازه زمانی
+        </label>
+
+        <div class="exact-date-wrap">
+            <input
+                type="text"
+                class="jalali-date"
+                name="f_{{ group.key }}_{{ field.key }}"
+                id="id_f_{{ group.key }}_{{ field.key }}"
+                placeholder="تاریخ دقیق"
+                autocomplete="off"
+            >
+        </div>
+
+        <div class="range-inputs" hidden>
+            <input
+                type="text"
+                class="jalali-date"
+                name="f_{{ group.key }}_from_{{ field.key }}"
+                placeholder="از تاریخ"
+                autocomplete="off"
+            >
+
+            <input
+                type="text"
+                class="jalali-date"
+                name="f_{{ group.key }}_to_{{ field.key }}"
+                placeholder="تا تاریخ"
+                autocomplete="off"
+            >
+        </div>
+
+    </div>
+
+{% elif field.type == "choice" %}
+
+
+                                {% elif field.type == "choice" %}
+
+                                    <select name="f_{{ group.key }}_{{ field.key }}"
+                                            id="id_f_{{ group.key }}_{{ field.key }}">
+                                        <option value="">همه موارد</option>
+
+                                        {% for value, label in field.choices %}
+                                        <option value="{{ value }}">{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                {% elif field.type == "number" %}
+
+                                    <input
+                                        type="number"
+                                        name="f_{{ group.key }}_{{ field.key }}"
+                                        placeholder="مقدار دقیق"
+                                    >
+
+                                    <div class="range-inputs">
+                                        <input
+                                            type="number"
+                                            name="f_{{ group.key }}_min_{{ field.key }}"
+                                            placeholder="حداقل"
+                                        >
+
+                                        <input
+                                            type="number"
+                                            name="f_{{ group.key }}_max_{{ field.key }}"
+                                            placeholder="حداکثر"
+                                        >
+                                    </div>
+
+                                {% else %}
+
+                                    <input
+                                        type="text"
+                                        name="f_{{ group.key }}_{{ field.key }}"
+                                        id="id_f_{{ group.key }}_{{ field.key }}"
+                                        placeholder="مقدار مورد جستجو"
+                                    >
+
+                                    
+
+                                {% endif %}
+
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                    </details>
+                    {% endfor %}
+
+                </details>
+                {% endif %}
+
+
+                {% if can_view_contracts %}
+                <details class="filter-menu">
+
+                    <summary>قراردادها</summary>
+
+                    
+
+                  
+
+
+                    {% for group in contract_filter_groups %}
+                    <details class="filter-subgroup">
+
+                        <summary>{{ group.label }}</summary>
+
+                        <div class="filter-grid">
+
+                            {% for field in group.fields %}
+                            <div class="filter-item">
+
+                                <label for="id_f_contract_{{ field.key }}">
+                                    {{ field.label }}
+                                </label>
+
+                                
+{% if field.type == "date" %}
+
+    <div class="date-filter" data-date-filter>
+
+        <label class="date-range-toggle-label">
+            <input
+                type="checkbox"
+                class="date-range-toggle"
+                name="range_f_contract_{{ field.key }}"
+                value="1"
+            >
+            جستجو در بازه زمانی
+        </label>
+
+        <div class="exact-date-wrap">
+            <input
+                type="text"
+                class="jalali-date"
+                name="f_contract_{{ field.key }}"
+                id="id_f_contract_{{ field.key }}"
+                placeholder="تاریخ دقیق"
+                autocomplete="off"
+            >
+        </div>
+
+        <div class="range-inputs" hidden>
+            <input
+                type="text"
+                class="jalali-date"
+                name="f_contract_from_{{ field.key }}"
+                placeholder="از تاریخ"
+                autocomplete="off"
+            >
+
+            <input
+                type="text"
+                class="jalali-date"
+                name="f_contract_to_{{ field.key }}"
+                placeholder="تا تاریخ"
+                autocomplete="off"
+            >
+        </div>
+
+    </div>
+
+
+                                {% elif field.type == "choice" %}
+
+                                    <select
+                                        name="f_contract_{{ field.key }}"
+                                        id="id_f_contract_{{ field.key }}"
+                                    >
+                                        <option value="">همه موارد</option>
+
+                                        {% for value, label in field.choices %}
+                                        <option value="{{ value }}">{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                {% elif field.type == "number" %}
+
+                                    <input
+                                        type="number"
+                                        name="f_contract_{{ field.key }}"
+                                        placeholder="مقدار دقیق"
+                                    >
+
+                                    <div class="range-inputs">
+                                        <input
+                                            type="number"
+                                            name="f_contract_min_{{ field.key }}"
+                                            placeholder="حداقل"
+                                        >
+
+                                        <input
+                                            type="number"
+                                            name="f_contract_max_{{ field.key }}"
+                                            placeholder="حداکثر"
+                                        >
+                                    </div>
+
+                                {% else %}
+
+                                    <input
+                                        type="text"
+                                        name="f_contract_{{ field.key }}"
+                                        id="id_f_contract_{{ field.key }}"
+                                        placeholder="مقدار مورد جستجو"
+                                    >
+
+                                {% endif %}
+
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                    </details>
+                    {% endfor %}
+
+                </details>
+                {% endif %}
+
+
+                {% if can_view_documents %}
+                <details class="filter-menu">
+
+                    <summary>اسناد</summary>
+
+                    <div class="filter-grid">
+
+                        <div class="filter-item">
+                            <label for="id_has_photo">عکس پرسنل</label>
+
+                            <select name="has_photo" id="id_has_photo">
+                                <option value="">همه</option>
+                                <option value="yes" {% if has_photo == "yes" %}selected{% endif %}>
+                                    دارای عکس
+                                </option>
+                                <option value="no" {% if has_photo == "no" %}selected{% endif %}>
+                                    بدون عکس
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                    <details class="filter-subgroup" open>
+                        <summary>اسناد پیوست پرسنل</summary>
+
+                        <div class="filter-grid">
+
+                            {% for field in document_filter_fields %}
+                            <div class="filter-item">
+
+                                <label for="id_f_doc_{{ field.key }}">
+                                    {{ field.label }}
+                                </label>
+
+                               
+{% if field.type == "date" %}
+
+    <div class="date-filter" data-date-filter>
+
+        <label class="date-range-toggle-label">
+            <input
+                type="checkbox"
+                class="date-range-toggle"
+                name="range_f_doc_{{ field.key }}"
+                value="1"
+            >
+            جستجو در بازه زمانی
+        </label>
+
+        <div class="exact-date-wrap">
+            <input
+                type="text"
+                class="jalali-date"
+                name="f_doc_{{ field.key }}"
+                id="id_f_doc_{{ field.key }}"
+                placeholder="تاریخ دقیق"
+                autocomplete="off"
+            >
+        </div>
+
+        <div class="range-inputs" hidden>
+            <input
+                type="text"
+                class="jalali-date"
+                name="f_doc_from_{{ field.key }}"
+                placeholder="از تاریخ"
+                autocomplete="off"
+            >
+
+            <input
+                type="text"
+                class="jalali-date"
+                name="f_doc_to_{{ field.key }}"
+                placeholder="تا تاریخ"
+                autocomplete="off"
+            >
+        </div>
+
+    </div>
+
+
+                                {% elif field.type == "choice" %}
+
+                                    <select
+                                        name="f_doc_{{ field.key }}"
+                                        id="id_f_doc_{{ field.key }}"
+                                    >
+                                        <option value="">همه موارد</option>
+
+                                        {% for value, label in field.choices %}
+                                        <option value="{{ value }}">{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                {% else %}
+
+                                    <input
+                                        type="text"
+                                        name="f_doc_{{ field.key }}"
+                                        id="id_f_doc_{{ field.key }}"
+                                        placeholder="مقدار مورد جستجو"
+                                    >
+
+                                {% endif %}
+
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                    </details>
+
+                </details>
+                {% endif %}
+
+            </div>
+            {% endif %}
+
+
+            <div class="search-actions">
+                <button type="submit" class="default">جستجو</button>
+                <a href="{% url 'personnel_companyhr_search' %}">پاک‌کردن فیلترها</a>
+            </div>
+
+        </section>
+    </form>
+
+
+    {% if should_search %}
+    <section class="search-card">
+
+        <div class="result-summary">
+            تعداد نتایج: {{ total_count }}
+        </div>
+
+        <div class="search-tabs" role="tablist">
+
+            <button type="button" class="active" data-tab="all">
+                همه نتایج ({{ total_count }})
+            </button>
+
+            {% if can_view_employees %}
+            <button type="button" data-tab="employees">
+                پرسنل ({{ employee_count }})
+            </button>
+            {% endif %}
+
+            {% if can_view_documents %}
+            <button type="button" data-tab="documents">
+                اسناد ({{ document_count }})
+            </button>
+            {% endif %}
+
+            {% if can_view_contracts %}
+            <button type="button" data-tab="contracts">
+                قراردادها ({{ contract_count }})
+            </button>
+            {% endif %}
+
+        </div>
+
+
+        <div id="tab-all" class="search-tab-panel active">
+
+            {% if can_view_employees %}
+            <section class="search-result-section">
+                <h3>پرسنل ({{ employee_count }})</h3>
+                {% if active_employee_filter_details %}
+                <div class="active-search-filters">
+                    <strong>فیلترهای فعال پرسنل:</strong>
+                    {% for item in active_employee_filter_details %}
+                        <span class="active-search-filter">
+                            {{ item.label }}: {{ item.value }}
+                        </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                
+                {% include "personnel/search_employee_results.html" %}
+            </section>
+            {% endif %}
+
+            {% if can_view_documents %}
+            <section class="search-result-section">
+                <h3>اسناد پیوست ({{ document_count }})</h3>
+                                
+                {% if active_document_filter_details %}
+                <div class="active-search-filters">
+                    <strong>فیلترهای فعال اسناد:</strong>
+                    {% for item in active_document_filter_details %}
+                        <span class="active-search-filter">
+                            {{ item.label }}: {{ item.value }}
+                        </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% include "personnel/search_document_results.html" %}
+            </section>
+            {% endif %}
+
+            {% if can_view_contracts %}
+            <section class="search-result-section">
+                <h3>قراردادها ({{ contract_count }})</h3>
+                                
+                {% if active_contract_filter_details %}
+                <div class="active-search-filters">
+                    <strong>فیلترهای فعال قراردادها:</strong>
+                    {% for item in active_contract_filter_details %}
+                        <span class="active-search-filter">
+                            {{ item.label }}: {{ item.value }}
+                        </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% include "personnel/search_contract_results.html" %}
+            </section>
+            {% endif %}
+
+        </div>
+
+
+        {% if can_view_employees %}
+        <div id="tab-employees" class="search-tab-panel">
+            {% include "personnel/search_employee_results.html" %}
+        </div>
+        {% endif %}
+
+        {% if can_view_documents %}
+        <div id="tab-documents" class="search-tab-panel">
+            {% include "personnel/search_document_results.html" %}
+        </div>
+        {% endif %}
+
+        {% if can_view_contracts %}
+        <div id="tab-contracts" class="search-tab-panel">
+            {% include "personnel/search_contract_results.html" %}
+        </div>
+        {% endif %}
+
+    </section>
+
+    {% elif request.GET %}
+    <section class="search-card">
+        هیچ فیلتری انتخاب نشده است. عبارت یا یکی از فیلترهای جستجو را وارد کنید.
+    </section>
+    {% endif %}
+
+</div>
+
+<script>
+(function () {
+    const modeSelect = document.getElementById("id_mode");
+    const form = document.getElementById("companyhr-search-form");
+
+    if (modeSelect && form) {
+        modeSelect.addEventListener("change", function () {
+            form.submit();
+        });
+    }
+
+    document.querySelectorAll(".search-tabs button[data-tab]").forEach(function (button) {
+        button.addEventListener("click", function () {
+            document.querySelectorAll(".search-tabs button").forEach(function (item) {
+                item.classList.remove("active");
+            });
+
+            document.querySelectorAll(".search-tab-panel").forEach(function (panel) {
+                panel.classList.remove("active");
+            });
+
+            button.classList.add("active");
+
+            const panel = document.getElementById("tab-" + button.dataset.tab);
+
+            if (panel) {
+                panel.classList.add("active");
+            }
+        });
+    });
+})();
+</script>
+
+
+<script>
+(function () {
+    const params = new URLSearchParams(window.location.search);
+
+    document.querySelectorAll("[data-date-filter]").forEach(function (box) {
+        const checkbox = box.querySelector(".date-range-toggle");
+        const exactWrap = box.querySelector(".exact-date-wrap");
+        const rangeWrap = box.querySelector(".range-inputs");
+
+        if (!checkbox || !exactWrap || !rangeWrap) {
+            return;
+        }
+
+        checkbox.checked = params.get(checkbox.name) === "1";
+
+        function updateDateMode() {
+            const useRange = checkbox.checked;
+
+            exactWrap.hidden = useRange;
+            rangeWrap.hidden = !useRange;
+
+            exactWrap.querySelectorAll("input").forEach(function (input) {
+                input.disabled = useRange;
+            });
+
+            rangeWrap.querySelectorAll("input").forEach(function (input) {
+                input.disabled = !useRange;
+            });
+        }
+
+        checkbox.addEventListener("change", updateDateMode);
+        updateDateMode();
+    });
+})();
+</script>
+
+
+<script>
+/* راه‌اندازی تقویم فیلدهای تاریخ جستجو */
+if (window.jQuery && jQuery.fn && jQuery.fn.datepicker) {
+    jQuery(".jalali-date").each(function () {
+        const element = jQuery(this);
+
+        if (!element.hasClass("hasDatepicker")) {
+            element.datepicker({
+                dateFormat: "yy/mm/dd",
+                changeMonth: true,
+                changeYear: true,
+                regional: "fa"
+            });
+        }
+    });
+}
+</script>
+
+{% endblock %}

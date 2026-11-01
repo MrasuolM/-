@@ -1,0 +1,1093 @@
+/* =====================================================
+   CompanyHR - تب‌های پرونده پرسنل
+   نسخه اصلاح‌شده
+   ===================================================== */
+
+
+/* =====================================================
+   تب‌های پرونده پرسنل
+   ===================================================== */
+
+.companyhr-tabs {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+
+/* -----------------------------------------------------
+   نوار تب‌ها
+   ----------------------------------------------------- */
+
+.companyhr-tab-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    border-bottom: 1px solid #d9d9d9;
+    margin-bottom: 15px;
+}
+
+
+/* -----------------------------------------------------
+   دکمه هر تب
+   ----------------------------------------------------- */
+
+.companyhr-tab-button {
+    border: 1px solid #d9d9d9;
+    border-bottom: none;
+    background: #f5f5f5;
+    padding: 10px 22px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    border-radius: 6px 6px 0 0;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.companyhr-tab-button:hover {
+    background: #eeeeee;
+}
+
+.companyhr-tab-button.active {
+    background: #ffffff;
+    color: #417690;
+    font-weight: bold;
+    border-color: #417690;
+    position: relative;
+    bottom: -1px;
+}
+
+
+/* -----------------------------------------------------
+   پنل محتوای هر تب
+   ----------------------------------------------------- */
+
+.companyhr-tab-panel {
+    display: none;
+    width: 100%;
+}
+
+.companyhr-tab-panel.active {
+    display: block;
+}
+
+
+/* -----------------------------------------------------
+   حذف عنوان پیش‌فرض fieldset داخل تب
+   ----------------------------------------------------- */
+
+.companyhr-tab-panel > fieldset > h2 {
+    display: none;
+}
+
+.companyhr-tab-panel > fieldset {
+    margin-top: 0;
+}
+
+
+/* -----------------------------------------------------
+   Inlineها داخل تب
+   ----------------------------------------------------- */
+
+.companyhr-tab-panel > .inline-group {
+    margin-top: 0;
+}
+
+.companyhr-tab-panel > .inline-group > h2 {
+    display: none;
+}
+
+.companyhr-tab-panel .inline-group {
+    margin-top: 15px;
+}
+
+.companyhr-tab-panel .inline-group > h2 {
+    display: none;
+}
+
+
+/* =====================================================
+   نمایشگرهای کوچک
+   ===================================================== */
+
+@media (max-width: 700px) {
+
+    .companyhr-tab-buttons {
+        gap: 2px;
+    }
+
+    .companyhr-tab-button {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+}
+
+
+/* =====================================================
+   حذف دکمه‌های تقویم پیش‌فرض
+   ===================================================== */
+
+.datetimeshortcuts {
+    display: none !important;
+}
+
+
+/* =====================================================
+   شماره تماس
+   ===================================================== */
+
+.form-row.field-phone {
+    display: none !important;
+}
+
+
+/* =====================================================
+   اسناد پیوست
+   ===================================================== */
+
+/*
+   فقط ستون «سطح مدرک» در صورت درخواست JavaScript
+   مخفی می‌شود.
+
+   این بخش عمداً هیچ input، select، file یا checkbox
+   را مخفی نمی‌کند.
+*/
+
+#documents-group td.field-education_level.edu-hidden,
+#documents-group th.column-education_level.edu-hidden {
+    display: none !important;
+}
+
+
+/* -----------------------------------------------------
+   فاصله و ظاهر عمومی اسناد
+   ----------------------------------------------------- */
+
+#documents-group {
+    margin-top: 15px;
+}
+
+#documents-group .tabular {
+    width: 100%;
+}
+
+
+/* -----------------------------------------------------
+   نکته مهم:
+
+   در این نسخه:
+   - thead مخفی نمی‌شود
+   - tbody به display:block تبدیل نمی‌شود
+   - table به display:block تبدیل نمی‌شود
+   - ردیف empty-form مخفی نمی‌شود
+   - select نوع سند مخفی نمی‌شود
+   - input فایل مخفی نمی‌شود
+   - checkbox حذف مخفی نمی‌شود
+   - ردیف‌های سند به کارت تبدیل نمی‌شوند
+   ----------------------------------------------------- */
+
+
+/* =====================================================
+   اعضای خانواده
+   ===================================================== */
+
+#family_members-group .inline-related > h3 {
+    cursor: pointer !important;
+    user-select: none;
+}
+
+#family_members-group .inline-related > fieldset.module {
+    display: block;
+}
+
+#family_members-group .inline-related.collapsed > fieldset.module {
+    display: none !important;
+}
+
+#family_members-group .inline-related > h3::before {
+    content: "▼ ";
+    display: inline-block;
+    transition: transform 0.2s;
+    margin-left: 8px;
+    color: #417690;
+}
+
+#family_members-group .inline-related.collapsed > h3::before {
+    content: "◀ ";
+}
+
+
+/* =====================================================
+   بستگان
+   ===================================================== */
+
+#relatives-group .inline-related > h3 {
+    cursor: pointer !important;
+    user-select: none;
+}
+
+#relatives-group .inline-related > fieldset.module {
+    display: block;
+}
+
+#relatives-group .inline-related.collapsed > fieldset.module {
+    display: none !important;
+}
+
+#relatives-group .inline-related > h3::before {
+    content: "▼ ";
+    margin-left: 8px;
+    color: #417690;
+}
+
+#relatives-group .inline-related.collapsed > h3::before {
+    content: "◀ ";
+}
+
+
+/* =====================================================
+   معرف پرسنل
+   ===================================================== */
+
+#referrer-group .inline-related > h3 {
+    cursor: pointer !important;
+    user-select: none;
+    min-height: 28px;
+    display: flex !important;
+    align-items: center;
+}
+
+#referrer-group .inline-related > fieldset.module {
+    display: block;
+}
+
+#referrer-group .inline-related.collapsed > fieldset.module {
+    display: none !important;
+}
+
+
+/* =====================================================
+   ظاهر عنوان خانواده
+   ===================================================== */
+
+#family_members-group .inline-related > h3,
+#family_members-group .inline-related > h3 label,
+#family_members-group .inline-related > h3 a {
+    color: #0066cc !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+}
+
+#family_members-group .inline-related > h3:hover,
+#family_members-group .inline-related > h3:hover label,
+#family_members-group .inline-related > h3:hover a {
+    color: #004499 !important;
+    text-decoration: underline !important;
+}
+
+
+/* =====================================================
+   ظاهر عنوان بستگان
+   ===================================================== */
+
+#relatives-group .inline-related > h3,
+#relatives-group .inline-related > h3 label,
+#relatives-group .inline-related > h3 a {
+    color: #0066cc !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+}
+
+#relatives-group .inline-related > h3:hover,
+#relatives-group .inline-related > h3:hover label,
+#relatives-group .inline-related > h3:hover a {
+    color: #004499 !important;
+    text-decoration: underline !important;
+}
+
+
+/* =====================================================
+   ظاهر عنوان معرف پرسنل
+   ===================================================== */
+
+#referrer-group .inline-related > h3,
+#referrer-group .inline-related > h3 label,
+#referrer-group .inline-related > h3 a {
+    color: #0066cc !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+}
+
+#referrer-group .inline-related > h3:hover,
+#referrer-group .inline-related > h3:hover label,
+#referrer-group .inline-related > h3:hover a {
+    color: #004499 !important;
+    text-decoration: underline !important;
+}
+
+
+/* -----------------------------------------------------
+   حذف checkbox حذف از کنار عنوان
+   فقط برای خانواده، بستگان و معرف
+   ----------------------------------------------------- */
+
+#family_members-group .inline-related > h3 input[type="checkbox"],
+#relatives-group .inline-related > h3 input[type="checkbox"],
+#referrer-group .inline-related > h3 input[type="checkbox"] {
+    display: none !important;
+}
+
+
+/* =====================================================
+   ظاهر عمومی پنل مدارک هویتی
+   ===================================================== */
+
+/*
+   این کلاس توسط JavaScript برای پنل جدید
+   «مدارک و پیوست‌های هویتی» استفاده می‌شود.
+*/
+
+.companyhr-identity-documents {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 15px 0 20px 0;
+}
+
+
+/* -----------------------------------------------------
+   عنوان پنل مدارک
+   ----------------------------------------------------- */
+
+.companyhr-identity-documents .documents-panel-title {
+    background: #417690;
+    color: #ffffff;
+    padding: 11px 16px;
+    border-radius: 6px 6px 0 0;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: inherit;
+}
+
+
+/* -----------------------------------------------------
+   محتوای پنل مدارک
+   ----------------------------------------------------- */
+
+.companyhr-identity-documents .documents-panel-body {
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+
+/* =====================================================
+   کارت‌های مدارک هویتی
+   ===================================================== */
+
+.companyhr-document-card {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    background: #ffffff;
+}
+
+
+/* -----------------------------------------------------
+   کارت مدرک موجود
+   ----------------------------------------------------- */
+
+.companyhr-document-card.has-file {
+    border-color: #c9d9e2;
+    background: #ffffff;
+}
+
+
+/* -----------------------------------------------------
+   کارت مدرک موجود نیست
+   ----------------------------------------------------- */
+
+.companyhr-document-card.no-file {
+    border-color: #dc3545;
+    background: #fff5f5;
+}
+
+
+/* -----------------------------------------------------
+   عنوان کارت
+   ----------------------------------------------------- */
+
+.companyhr-document-card .document-title {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+
+/* -----------------------------------------------------
+   تعداد فایل‌ها
+   ----------------------------------------------------- */
+
+.companyhr-document-card .document-count {
+    font-size: 12px;
+    margin-right: 8px;
+}
+
+
+/* -----------------------------------------------------
+   دکمه مشاهده سند
+   ----------------------------------------------------- */
+
+.companyhr-document-card .document-view-btn {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 4px 4px 0 0;
+    border-radius: 4px;
+    background: #417690;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.companyhr-document-card .document-view-btn:hover {
+    background: #2c5468;
+}
+
+
+/* =====================================================
+   بخش مدارک تحصیلی
+   ===================================================== */
+
+.companyhr-education-documents {
+    margin-top: 15px;
+}
+
+.companyhr-education-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #417690;
+}
+
+
+/* =====================================================
+   اسناد «سایر»
+   ===================================================== */
+
+.companyhr-other-documents {
+    margin-top: 15px;
+}
+
+
+/* =====================================================
+   اطمینان از نمایش کنترل‌های Django برای اسناد
+   ===================================================== */
+
+/*
+   این قسمت عمداً هیچ‌کدام از کنترل‌های فرم را مخفی نمی‌کند.
+   برای جلوگیری از باقی ماندن اثر CSS قبلی، کنترل‌های اصلی
+   سند به حالت طبیعی برگردانده می‌شوند.
+*/
+
+#documents-group td.field-document_type select {
+    display: inline-block;
+}
+
+#documents-group td.field-education_level select {
+    display: inline-block;
+}
+
+#documents-group td.field-title input {
+    display: inline-block;
+}
+
+#documents-group td.field-file input[type="file"] {
+    display: inline-block;
+}
+
+#documents-group td.field-issue_date input {
+    display: inline-block;
+}
+
+#documents-group td.field-description textarea {
+    display: inline-block;
+}
+
+#documents-group td.delete input[type="checkbox"] {
+    display: inline-block;
+}
+
+
+/* =====================================================
+   ردیف جدید سند
+   ===================================================== */
+
+/*
+   ردیف خالی Django نباید مخفی شود.
+   Django از این ردیف برای ساخت سند جدید استفاده می‌کند.
+*/
+
+#documents-group tr.empty-form {
+    display: none;
+}
+
+
+/*
+   نکته:
+   خود empty-form توسط Django به عنوان template استفاده می‌شود
+   و Add another به صورت جداگانه نمایش داده می‌شود.
+   بنابراین فقط template خام مخفی است، نه دکمه افزودن.
+*/
+
+
+/* =====================================================
+   دکمه افزودن سند جدید
+   ===================================================== */
+
+#documents-group .add-row {
+    display: table-row;
+}
+
+#documents-group .add-row a {
+    color: #417690;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#documents-group .add-row a:hover {
+    color: #2c5468;
+    text-decoration: underline;
+}
+
+
+/* =====================================================
+   فاصله مناسب جدول اسناد
+   ===================================================== */
+
+#documents-group table {
+    width: 100%;
+}
+
+#documents-group table th,
+#documents-group table td {
+    vertical-align: middle;
+}
+
+/* عنوان مدارکی که هنوز فایل پیوست ندارند */
+.companyhr-document-card.is-missing .companyhr-document-title {
+    color: #c62828;
+    font-weight: 700;
+}
+
+/* =================================================
+   پنجره ویرایش پیوست
+   ================================================= */
+
+.companyhr-document-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    direction: rtl;
+}
+
+.companyhr-document-modal-box {
+    width: 520px;
+    max-width: calc(100vw - 40px);
+
+    max-height: calc(100vh - 60px);
+
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.25);
+}
+
+.companyhr-document-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 12px 16px;
+
+    background: #417690;
+
+    color: #ffffff;
+
+    border-radius: 10px 10px 0 0;
+}
+
+.companyhr-document-modal-title {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.companyhr-document-modal-close {
+    border: none;
+
+    background: transparent;
+
+    color: #ffffff;
+
+    font-size: 26px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    padding: 0 4px;
+}
+
+.companyhr-document-modal-close:hover {
+    opacity: 0.75;
+}
+
+.companyhr-document-modal-body {
+    padding: 18px;
+}
+
+.companyhr-document-modal-field {
+    margin-bottom: 15px;
+}
+
+.companyhr-document-modal-field label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    color: #333333;
+}
+
+.companyhr-document-modal-input,
+.companyhr-document-modal-textarea,
+.companyhr-document-modal-file {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 8px 10px;
+
+    border: 1px solid #c8c8c8;
+
+    border-radius: 5px;
+
+    background: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 13px;
+}
+
+.companyhr-document-modal-input:focus,
+.companyhr-document-modal-textarea:focus {
+    outline: none;
+
+    border-color: #417690;
+
+    box-shadow:
+        0 0 0 2px rgba(65, 118, 144, 0.12);
+}
+
+.companyhr-document-modal-view {
+    display: inline-block;
+
+    padding: 7px 12px;
+
+    border-radius: 5px;
+
+    background: #417690;
+
+    color: #ffffff !important;
+
+    text-decoration: none !important;
+
+    font-size: 12px;
+}
+
+.companyhr-document-modal-view:hover {
+    background: #2c5468;
+}
+
+.companyhr-document-modal-footer {
+    display: flex;
+
+    justify-content: flex-start;
+
+    gap: 8px;
+
+    padding: 12px 18px;
+
+    border-top: 1px solid #eeeeee;
+
+    background: #fafafa;
+
+    border-radius: 0 0 10px 10px;
+}
+
+.companyhr-document-modal-cancel,
+.companyhr-document-modal-save {
+    border: none;
+
+    border-radius: 5px;
+
+    padding: 8px 18px;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+.companyhr-document-modal-cancel {
+    background: #e5e5e5;
+
+    color: #333333;
+}
+
+.companyhr-document-modal-save {
+    background: #417690;
+
+    color: #ffffff;
+}
+
+.companyhr-document-modal-cancel:hover {
+    background: #d5d5d5;
+}
+
+.companyhr-document-modal-save:hover {
+    background: #2c5468;
+}
+
+/* نمایش تقویم جلالی روی پنجره ویرایش پیوست */
+jdp-container {
+    z-index: 1000000 !important;
+}
+
+jdp-overlay {
+    z-index: 999999 !important;
+}
+
+
+
+/* =====================================================
+   کارت خلاصه پرونده پرسنل
+   ===================================================== */
+
+.companyhr-summary-card {
+    direction: rtl;
+    margin: 0 0 22px;
+    padding: 22px;
+    border: 1px solid #dbe4ee;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(25, 50, 80, 0.07);
+    color: #243447;
+}
+
+.companyhr-summary-main {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.companyhr-summary-photo {
+    width: 94px;
+    height: 108px;
+    flex: 0 0 94px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid #dbe4ee;
+    border-radius: 12px;
+    background: #f1f5f9;
+    font-size: 38px;
+}
+
+.companyhr-summary-photo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.companyhr-summary-identity {
+    min-width: 0;
+    flex: 1;
+}
+
+.companyhr-summary-eyebrow {
+    margin-bottom: 6px;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.companyhr-summary-name {
+    margin: 0 0 9px;
+    color: #173b63;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.companyhr-summary-code {
+    margin-bottom: 10px;
+    color: #526477;
+    font-size: 13px;
+}
+
+.companyhr-summary-status {
+    display: inline-block;
+    padding: 5px 11px;
+    border-radius: 20px;
+    background: #e8f7ee;
+    color: #187545;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.companyhr-summary-status[data-status="suspended"] {
+    background: #fff3d6;
+    color: #946200;
+}
+
+.companyhr-summary-status[data-status="terminated"],
+.companyhr-summary-status[data-status="retired"] {
+    background: #feecec;
+    color: #b42318;
+}
+
+.companyhr-summary-details {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid #e7edf3;
+}
+
+.companyhr-summary-item {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.companyhr-summary-item span {
+    color: #718096;
+    font-size: 12px;
+}
+
+.companyhr-summary-item strong {
+    overflow-wrap: anywhere;
+    color: #26384a;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.companyhr-summary-documents {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #e7edf3;
+}
+
+.companyhr-summary-doc-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 14px;
+    border: 1px solid #ccebd8;
+    border-radius: 10px;
+    background: #f0faf4;
+    color: #176b40;
+    font-size: 13px;
+}
+
+.companyhr-summary-doc-item > span:first-child {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.companyhr-summary-doc-item.is-missing {
+    border-color: #f3cccc;
+    background: #fff5f5;
+    color: #b42318;
+}
+
+@media (max-width: 800px) {
+    .companyhr-summary-details {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .companyhr-summary-card {
+        padding: 14px;
+    }
+
+    .companyhr-summary-photo {
+        width: 72px;
+        height: 86px;
+        flex-basis: 72px;
+    }
+
+    .companyhr-summary-name {
+        font-size: 17px;
+    }
+}
+
+.companyhr-summary-details .summary-bank-account-status.bank-account-yes {
+    color: #16803c !important;
+    font-weight: 700;
+}
+
+.companyhr-summary-details .summary-bank-account-status.bank-account-no {
+    color: #dc2626 !important;
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   CompanyHR - ارتقای ظاهری تب‌ها و خلاصه پرونده
+   مرحله اول: بدون تغییر در عملکرد
+   ===================================================== */
+
+:root {
+    --companyhr-navy: #0b2d4f;
+    --companyhr-blue: #1769aa;
+    --companyhr-turquoise: #08a6b5;
+    --companyhr-border: #d9e7f3;
+    --companyhr-surface: #f5f9fd;
+}
+
+/* نوار تب‌ها */
+.companyhr-tab-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 8px;
+    margin-bottom: 18px;
+    background: #edf4fa;
+    border: 1px solid var(--companyhr-border);
+    border-bottom: 2px solid var(--companyhr-turquoise);
+    border-radius: 12px 12px 0 0;
+}
+
+/* دکمه‌های تب */
+.companyhr-tab-button {
+    position: relative;
+    bottom: auto;
+    padding: 12px 18px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--companyhr-navy);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+/* حالت اشاره ماوس */
+.companyhr-tab-button:hover {
+    background: #ffffff;
+    color: var(--companyhr-blue);
+    border-color: var(--companyhr-border);
+}
+
+/* تب انتخاب‌شده */
+.companyhr-tab-button.active {
+    bottom: auto;
+    background: #ffffff;
+    color: var(--companyhr-blue);
+    border-color: #c6e5ed;
+    box-shadow: inset 0 -3px 0 var(--companyhr-turquoise);
+    font-weight: 700;
+}
+
+/* تمرکز با صفحه‌کلید */
+.companyhr-tab-button:focus-visible {
+    outline: 2px solid var(--companyhr-turquoise);
+    outline-offset: 2px;
+}
+
+/* کارت خلاصه پرونده */
+.companyhr-summary-card {
+    border-color: var(--companyhr-border);
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ffffff 65%, #f0f8fc 100%);
+    box-shadow: 0 6px 22px rgba(11, 45, 79, 0.08);
+}
+
+/* نام پرسنل */
+.companyhr-summary-name {
+    color: var(--companyhr-navy);
+}
+
+/* فاصله و ظاهر اطلاعات خلاصه */
+.companyhr-summary-details {
+    gap: 14px;
+}
+
+.companyhr-summary-details .companyhr-summary-item {
+    padding: 12px;
+    border: 1px solid #e3edf6;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.88);
+}
+
+/* وضعیت شماره حساب: دارد */
+.companyhr-summary-details
+.summary-bank-account-status.bank-account-yes {
+    color: #16803c !important;
+    font-weight: 800;
+}
+
+/* وضعیت شماره حساب: ندارد */
+.companyhr-summary-details
+.summary-bank-account-status.bank-account-no {
+    color: #dc2626 !important;
+    font-weight: 800;
+}
+
+/* نمایش مناسب تب‌ها در صفحه کوچک */
+@media (max-width: 700px) {
+    .companyhr-tab-buttons {
+        gap: 5px;
+        padding: 6px;
+    }
+
+    .companyhr-tab-button {
+        padding: 9px 12px;
+        border-radius: 7px;
+    }
+}
+
+/* =====================================================
+   پایان فایل
+   ===================================================== */

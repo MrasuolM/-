@@ -1,0 +1,40 @@
+
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<div style="direction: rtl; text-align: right; max-width: 800px;">
+
+    <h1>تأیید حذف دائمی مدرک</h1>
+
+    <p style="color: #b91c1c; font-weight: bold;">
+        هشدار: این عملیات قابل بازگشت نیست.
+    </p>
+
+    <p>
+        آیا مطمئن هستید که می‌خواهید مدرک زیر را برای همیشه حذف کنید؟
+    </p>
+
+    <ul>
+        <li>پرسنل: {{ document.employee }}</li>
+        <li>نوع مدرک: {{ document.get_document_type_display }}</li>
+        <li>عنوان: {{ document.title|default:"بدون عنوان" }}</li>
+    </ul>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <button type="submit"
+                style="background: #b91c1c; color: white;
+                       padding: 10px 18px; border: none;
+                       cursor: pointer;">
+            بله، حذف دائمی شود
+        </button>
+
+        <a href="{{ cancel_url }}"
+           style="margin-right: 12px;">
+            انصراف
+        </a>
+    </form>
+
+</div>
+{% endblock %}

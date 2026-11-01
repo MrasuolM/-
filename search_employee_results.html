@@ -1,0 +1,38 @@
+
+<table class="search-results">
+    <thead>
+        <tr>
+            <th>کد پرسنلی</th>
+            <th>نام و نام خانوادگی</th>
+            <th>کد ملی</th>
+            <th>واحد سازمانی</th>
+            <th>وضعیت استخدام</th>
+            <th>محل تطبیق</th>
+            <th>پرونده</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for employee in employees %}
+        <tr>
+            <td>{{ employee.personnel_code }}</td>
+            <td>{{ employee.first_name }} {{ employee.last_name }}</td>
+            <td>{{ employee.national_code }}</td>
+            <td>{{ employee.department|default:"—" }}</td>
+            <td>{{ employee.get_employment_status_display }}</td>
+            <td>
+                {% for reason in employee.search_match_reasons %}
+                    {{ reason }}{% if not forloop.last %}، {% endif %}
+                {% empty %}
+                    —
+                {% endfor %}
+            </td>
+            <td>
+                <a href="{% url 'admin:personnel_employee_change' employee.pk %}">
+                    مشاهده پرونده
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+

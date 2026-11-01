@@ -1,0 +1,30 @@
+<table class="search-results">
+    <thead>
+        <tr>
+            <th>شماره قرارداد</th>
+            <th>موضوع</th>
+            <th>طرف مقابل</th>
+            <th>تاریخ شروع</th>
+            <th>تاریخ پایان</th>
+            <th>وضعیت</th>
+            <th>جزئیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contract in contracts %}
+        <tr>
+            <td>{{ contract.number }}</td>
+            <td>{{ contract.subject }}</td>
+            <td>{{ contract.second_party }}</td>
+            <td>{{ contract.start_date|default:"—" }}</td>
+            <td>{{ contract.end_date|default:"—" }}</td>
+            <td>{{ contract.get_status_display }}</td>
+            <td>
+                <a href="{% url 'admin:contracts_contract_change' contract.pk %}">
+                    مشاهده قرارداد
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
